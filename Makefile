@@ -10,10 +10,10 @@ test:
 	pytest --cov=basic_api test_basic_api.py
 	coverage report --show-missing
 
-build:
+build: clean
 	python setup.py sdist bdist_wheel
 
-release:
+release: build
 	twine upload dist/*
 
 clean:
