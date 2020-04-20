@@ -11,11 +11,11 @@ setup(
     version='0.1.1',
     description='Basic API client',
     long_description=load_long_description(),
-    long_description_content_type="text/markdown",
+    long_description_content_type='text/markdown',
     author='Daniel Bennett',
     # author_email='',
     url='https://github.com/gulducat/basic-api',
-    keywords=['basic', 'api', 'basic-api'],
+    keywords=['basic', 'api', 'client', 'basic-api'],
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
@@ -26,7 +26,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: Implementation :: CPython',
     ],
-    packages=["basic_api"],
+    packages=['basic_api'],
     include_package_data=True,
     package_data={'basic-api': ['version']},
     extras_require={
