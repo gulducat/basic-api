@@ -8,7 +8,7 @@ def load_long_description():
 
 setup(
     name='basic-api',
-    version='0.1.0',
+    version='0.1.1',
     description='Basic API client',
     long_description=load_long_description(),
     long_description_content_type="text/markdown",
