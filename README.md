@@ -5,7 +5,10 @@
 It's intended to be extended by subclasses which may have varying degrees
 of knowledge of their target API, including auth and/or convenience methods.
 
-An example can be found in `basic_github.py` which is used in `release.py`
+An example can be found in
+[`basic_github.py`](https://github.com/gulducat/basic-api/blob/master/basic_github.py)
+which is used in
+[`release.py`](https://github.com/gulducat/basic-api/blob/master/release.py)
 for making releases of `basic-api`.
 
 ## Usage
@@ -51,11 +54,9 @@ See `Heads Up -> Thread Safety` below.
 ### Request adapter
 
 The default adapter is [`requests`](https://requests.readthedocs.io/).
-It is not a hard requirement for folks who wish to keep requirements to the bare minimum.
-
-
-There is no fallback default adapter, so either install `requests`
-or `basic-api[adapter]` or pass in some specific adapter.
+It is not a hard requirement for folks who wish to keep requirements to the bare minimum,
+but there is no fallback adapter, so either install `requests`
+or `basic-api[adapter]` (which includes requests) or pass in some specific adapter.
 
 All keyword arguments aside from `host`, `proto`, and `adapter`
 will be passed into the adapter call.
@@ -63,7 +64,7 @@ will be passed into the adapter call.
 For example, you may wish to include the same header on all API calls:
 
 ```python
-api = BasicAPI('example.com', headers={'User-Agent': 'my fancy app'})
+api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
 ```
 
 #### Overlapping kwargs
@@ -107,14 +108,15 @@ api = BasicAPI('example.com', adapter=sesh)
 
 #### Advanced
 
-The `adapter` can be any instantiated object.
+The `adapter` can be any object with callable attributes.
 
-If you're advanced, you can probably figure out how to do fancy stuff with this basic thing.
+If you are advanced, you can probably figure out how to do exceptional stuff with this basic thing.
 
 ## Heads Up
 
 ### Thread Safety
 
-BasicAPI is _not_ thread safe (it is a BasicAPI, after all).
+BasicAPI is _not_ thread safe (it is quite basic, after all).
 
 Instantiate one per thread if you are multithreading.
+They don't cost much.

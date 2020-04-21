@@ -9,13 +9,13 @@ try:
     import requests
     ADAPTER = requests
 except ImportError:
-    logger.warning('no "requests" package found, so no default adapter')
+    logger.info('no "requests" package found, so no default adapter')
     ADAPTER = None
 
 
 class BasicAPI:
     def __init__(self, host, proto='https://', adapter=ADAPTER, **adapter_kw):
-        """Make API requests as ignorantly as possible.
+        """Make API requests as naively as possible.
         See https://github.com/gulducat/basic-api/ for readme.
 
         :param host: hostname
