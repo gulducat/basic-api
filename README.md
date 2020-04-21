@@ -5,6 +5,9 @@
 It's intended to be extended by subclasses which may have varying degrees
 of knowledge of their target API, including auth and/or convenience methods.
 
+An example can be found in `basic_github.py` which is used in `release.py`
+for making releases of `basic-api`.
+
 Requires Python 3.5+ even though it would be easy to support lower versions.
 Please use modern Python!
 
