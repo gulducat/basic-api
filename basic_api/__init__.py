@@ -13,7 +13,7 @@ except ImportError:
 
 
 class BasicAPI:
-    def __init__(self, host, proto="https://", adapter=ADAPTER, **adapter_kw):
+    def __init__(self, host, proto='https://', adapter=ADAPTER, **adapter_kw):
         """Make API requests as ignorantly as possible.
         See https://github.com/gulducat/basic-api/ for readme.
 
@@ -41,7 +41,6 @@ class BasicAPI:
 
     def _prepare(self):
         """Make any changes needed for calls to succeeed."""
-        pass
 
     def __getattr__(self, attr):
         """Build the method + API path."""
@@ -54,7 +53,7 @@ class BasicAPI:
 
     __getitem__ = __getattr__
 
-    def __call__(self, path="", **adapter_kw):
+    def __call__(self, path='', **adapter_kw):
         """Make API call.
 
         :param path: path to hit (default "")

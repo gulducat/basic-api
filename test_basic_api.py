@@ -51,7 +51,7 @@ class TestBasicAPI(TestCase):
 
     def test_sequential_attrs(self):
         self.api.get
-        self.api.cool["path"]
+        self.api.cool['path']
         self.api()
         self.adapter.get.assert_called_once_with(url=self.cool_url)
 

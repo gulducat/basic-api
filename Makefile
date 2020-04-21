@@ -4,10 +4,10 @@ requirements%:
 	pip install -r requirements$*.txt
 
 lint:
-	flake8 setup.py test_basic_api.py basic_api/
+	flake8 .
 
 test:
-	pytest --cov=basic_api test_basic_api.py
+	pytest --cov=basic_api
 	coverage report --show-missing
 
 build: clean
