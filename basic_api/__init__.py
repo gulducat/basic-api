@@ -1,4 +1,5 @@
 import logging
+from copy import deepcopy
 
 from . import exceptions as exc
 
@@ -59,7 +60,6 @@ class BasicAPI:
         :param path: path to hit (default "")
         :param **adapter_kw: keyword arguments to include in the call
         :raises NoMethodError: if no HTTP method has been detected
-        :raises TypeError: if multiple of the same keyword arguments collide
         """
         if not self._method:
             raise exc.NoMethodError('no method provided, expecting ex: get')
@@ -71,7 +71,35 @@ class BasicAPI:
         method = self._method
         self._clear()
 
-        # double **kw is not available in py2 or py3<3.5 (SyntaxError)
-        # leaving it like on purpose.
-        return getattr(self._adapter, method)(
-            url=url, **adapter_kw, **self._adapter_kw)
+        if self._adapter_kw:
+            kw = deepcopy(self._adapter_kw)
+            merge(source=adapter_kw, dest=kw)
+        else:
+            kw = adapter_kw
+
+        logger.debug('adapter kw: %s' % kw)
+        return getattr(self._adapter, method)(url=url, **kw)
+
+
+# there are a hundred million ways to skin this cat
+# https://stackoverflow.com/questions/7204805/how-to-merge-dictionaries-of-dictionaries
+# but the below merge function is pretty "basic" for our purposes.
+
+
+def merge(source, dest):
+    """Recursively merge a "source" dict into an "update" dict.
+    :param source: authoritative dict
+    :param dest: dict to dest, it will be mutated
+    :returns dict: only really needed for recursion
+    """
+    logger.debug('merging %s -> %s' % (source, dest))
+    if not isinstance(source, dict):
+        return source
+    for k, v in source.items():
+        if isinstance(source, dict) and isinstance(dest, dict):
+            dest[k] = merge(v, dest.get(k, {}))
+        else:
+            # sanity check, this basic thing can't do tooooo-fancy stuff
+            # if anyone actually uses this, issues incoming?
+            raise TypeError('cant merge non-dicts %s -> %s' % (source, dest))
+    return dest

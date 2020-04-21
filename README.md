@@ -69,16 +69,31 @@ For example, you may wish to include the same header on all API calls:
 api = BasicAPI('example.com', headers={'User-Agent': 'my fancy app'})
 ```
 
-Note that if you try to include the same keyword in subsequent calls,
-an exception will be raised:
+#### Overlapping kwargs
+
+If you include the same keyword in subsequent calls,
+`BasicAPI` will do a not-so-basic thing and attempt to merge them together,
+preferring the value(s) in the API call, so with
 
 ```python
-> api.get('/cool/path', headers={'another': 'header'})
-TypeError: get() got multiple values for keyword argument 'headers'
+api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
+api.get('/cool/path', headers={'User-Agent': 'super fancy'})
 ```
 
-Any attempt by `BasicAPI` to guess what you meant would make it not-so-basic,
-so there are no current plans to change this behavior.
+the `get` call will override the previous `User-Agent` header,
+resulting in a "super fancy" user agent, and
+
+```python
+api.get('/cool/path', headers={'another', 'header'})
+```
+
+will result in both the original "fancy" user agent _and_ `another` header.
+
+This behavior is sorta-tested; it's the only part of this thing I'm worried about.
+It's probably fine, but no promises.  Your own integration tests
+and `logging.basicConfig(level=logging.DEBUG)` are your friends.
+
+Please tell me how wrong I am about my recursive `merge` function.
 
 #### Sessions
 
