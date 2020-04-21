@@ -1,5 +1,6 @@
 from unittest import TestCase
-from unittest.mock import Mock
+
+from mock import Mock
 
 from basic_api import BasicAPI, merge
 from basic_api.exceptions import NoAdapterError, NoMethodError
