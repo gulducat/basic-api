@@ -2,14 +2,25 @@
 
 `BasicAPI` is a Python API client that knows nothing about any specific APIs.
 
+## Purpose
+
+I've used a lot of complicated python clients that are of course useuful,
+but my favorite clients are very basic.  They're _so not-smart_ that the question
+"Is this a problem with the API, or a problem with the python client?"
+should be more on the API than the client.
+
+So, `BasicAPI` is very slim.  After a bit of understanding of how it works,
+generally you should read the API docs instead of client docs.
+
 It's intended to be extended by subclasses which may have varying degrees
 of knowledge of their target API, including auth and/or convenience methods.
 
-An example can be found in
-[`basic_github.py`](https://github.com/gulducat/basic-api/blob/master/basic_github.py)
-which is used in
-[`release.py`](https://github.com/gulducat/basic-api/blob/master/release.py)
-for making releases of `basic-api`.
+### Example
+
+An example subclass can be found in
+[`examples/basic_github.py`](examples/basic_github.py)
+which is used for cutting releases of `basic-api` in
+[`release.py`](release.py).
 
 ## Usage
 

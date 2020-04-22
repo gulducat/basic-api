@@ -2,7 +2,7 @@
 
 from argparse import ArgumentParser
 
-from basic_github import GitHub
+from examples.basic_github import GitHub
 from setup import VERSION
 
 
