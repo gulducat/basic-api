@@ -2,14 +2,25 @@
 
 `BasicAPI` is a Python API client that knows nothing about any specific APIs.
 
+## Purpose
+
+I've used a lot of complicated python clients that are of course useuful,
+but my favorite clients are very basic.  They're _so not-smart_ that the question
+"Is this a problem with the API, or a problem with the python client?"
+should be more on the API than the client.
+
+So, `BasicAPI` is very slim.  After a bit of understanding of how it works,
+generally you should read the API docs instead of client docs.
+
 It's intended to be extended by subclasses which may have varying degrees
 of knowledge of their target API, including auth and/or convenience methods.
 
-An example can be found in `basic_github.py` which is used in `release.py`
-for making releases of `basic-api`.
+### Example
 
-Requires Python 3.5+ even though it would be easy to support lower versions.
-Please use modern Python!
+An example subclass can be found in
+[`examples/basic_github.py`](examples/basic_github.py)
+which is used for cutting releases of `basic-api` in
+[`release.py`](release.py).
 
 ## Usage
 
@@ -54,11 +65,9 @@ See `Heads Up -> Thread Safety` below.
 ### Request adapter
 
 The default adapter is [`requests`](https://requests.readthedocs.io/).
-It is not a hard requirement for folks who wish to keep requirements to the bare minimum.
-
-
-There is no fallback default adapter, so either install `requests`
-or `basic-api[adapter]` or pass in some specific adapter.
+It is not a hard requirement for folks who wish to keep requirements to the bare minimum,
+but there is no fallback adapter, so either install `requests`
+or `basic-api[adapter]` (which includes requests) or pass in some specific adapter.
 
 All keyword arguments aside from `host`, `proto`, and `adapter`
 will be passed into the adapter call.
@@ -66,19 +75,34 @@ will be passed into the adapter call.
 For example, you may wish to include the same header on all API calls:
 
 ```python
-api = BasicAPI('example.com', headers={'User-Agent': 'my fancy app'})
+api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
 ```
 
-Note that if you try to include the same keyword in subsequent calls,
-an exception will be raised:
+#### Overlapping kwargs
+
+If you include the same keyword in subsequent calls,
+`BasicAPI` will do a not-so-basic thing and attempt to merge them together,
+preferring the value(s) in the API call, so with
 
 ```python
-> api.get('/cool/path', headers={'another': 'header'})
-TypeError: get() got multiple values for keyword argument 'headers'
+api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
+api.get('/cool/path', headers={'User-Agent': 'super fancy'})
 ```
 
-Any attempt by `BasicAPI` to guess what you meant would make it not-so-basic,
-so there are no current plans to change this behavior.
+the `get` call will override the previous `User-Agent` header,
+resulting in a "super fancy" user agent, and
+
+```python
+api.get('/cool/path', headers={'another', 'header'})
+```
+
+will result in both the original "fancy" user agent _and_ `another` header.
+
+This behavior is sorta-tested; it's the only part of this thing I'm worried about.
+It's probably fine, but no promises.  Your own integration tests
+and `logging.basicConfig(level=logging.DEBUG)` are your friends.
+
+Please tell me how wrong I am about my recursive `merge` function.
 
 #### Sessions
 
@@ -95,14 +119,15 @@ api = BasicAPI('example.com', adapter=sesh)
 
 #### Advanced
 
-The `adapter` can be any instantiated object.
+The `adapter` can be any object with callable attributes.
 
-If you're advanced, you can probably figure out how to do fancy stuff with this basic thing.
+If you are advanced, you can probably figure out how to do exceptional stuff with this basic thing.
 
 ## Heads Up
 
 ### Thread Safety
 
-BasicAPI is _not_ thread safe (it is a BasicAPI, after all).
+BasicAPI is _not_ thread safe (it is quite basic, after all).
 
 Instantiate one per thread if you are multithreading.
+They don't cost much.

@@ -8,7 +8,6 @@ lint:
 
 test:
 	pytest --cov=basic_api
-	coverage report --show-missing
 
 build: clean
 	python setup.py sdist bdist_wheel
