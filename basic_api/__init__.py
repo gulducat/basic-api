@@ -29,7 +29,6 @@ class BasicAPI:
             raise exc.NoAdapterError('no "requests", and no adapter provided')
         self._adapter = adapter
         self._adapter_kw = adapter_kw
-        self._prepare()
 
         # this is what makes causes thread danger.
         self._paths = []
@@ -39,9 +38,6 @@ class BasicAPI:
         """Reset per-call attributes."""
         self._paths = []
         self._method = None
-
-    def _prepare(self):
-        """Make any changes needed for calls to succeeed."""
 
     def __getattr__(self, attr):
         """Build the method + API path."""

@@ -23,7 +23,7 @@ def main(args):
 
     released = [
         r['name']
-        for r in gh.get.repos[slug]().json()
+        for r in gh.get.repos[slug]()
     ]
     if version in released:
         print(version + ' already exists')
@@ -34,7 +34,7 @@ def main(args):
         name=version,
         body='💃',
         draft=True,
-    )).json()
+    ))
     tag = draft['html_url'].split('/')[-1]
     url = 'https://github.com/%s/edit/%s' % (slug, tag)
     print('Draft release: ' + url)
