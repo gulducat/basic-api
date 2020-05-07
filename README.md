@@ -18,9 +18,9 @@ of knowledge of their target API, including auth and/or convenience methods.
 ### Example
 
 An example subclass can be found in
-[`examples/basic_github.py`](examples/basic_github.py)
+[`examples/basic_github.py`](https://github.com/gulducat/basic-api/blob/master/examples/basic_github.py)
 which is used for cutting releases of `basic-api` in
-[`release.py`](release.py).
+[`release.py`](https://github.com/gulducat/basic-api/blob/master/release.py).
 
 ## Usage
 
