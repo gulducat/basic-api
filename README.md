@@ -30,11 +30,11 @@ pip install requests basic-api
 
 ```python
 from basic_api import BasicAPI
-api = BasicAPI('example.com')
+api = BasicAPI('https://api.example.com')
 ```
 
 All of the below are equivalent.
-They make a GET request to `https://example.com/cool/path`
+They make a GET request to `https://api.example.com/cool/path`
 
 ```python
 api.get('/cool/path')
@@ -69,13 +69,13 @@ It is not a hard requirement for folks who wish to keep requirements to the bare
 but there is no fallback adapter, so either install `requests`
 or `basic-api[adapter]` (which includes requests) or pass in some specific adapter.
 
-All keyword arguments aside from `host`, `proto`, and `adapter`
+All keyword arguments aside from `base_url` and `adapter`
 will be passed into the adapter call.
 
 For example, you may wish to include the same header on all API calls:
 
 ```python
-api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
+api = BasicAPI('https://api.example.com', headers={'User-Agent': 'fancy'})
 ```
 
 #### Overlapping kwargs
@@ -85,7 +85,7 @@ If you include the same keyword in subsequent calls,
 preferring the value(s) in the API call, so with
 
 ```python
-api = BasicAPI('example.com', headers={'User-Agent': 'fancy'})
+api = BasicAPI('https://api.example.com', headers={'User-Agent': 'fancy'})
 api.get('/cool/path', headers={'User-Agent': 'super fancy'})
 ```
 
@@ -93,7 +93,7 @@ the `get` call will override the previous `User-Agent` header,
 resulting in a "super fancy" user agent, and
 
 ```python
-api.get('/cool/path', headers={'another', 'header'})
+api.get('/cool/path', headers={'another': 'header'})
 ```
 
 will result in both the original "fancy" user agent _and_ `another` header.
@@ -113,8 +113,9 @@ as the `adapter`, since it has (mostly) the same interface as `requests` itself.
 ```python
 sesh = requests.Session()
 sesh.headers = {'User-Agent': 'my fancy app'}
-# sesh.get(something something cookies)
-api = BasicAPI('example.com', adapter=sesh)
+api = BasicAPI('https://api.example.com', adapter=sesh)
+# api.post.something.something.cookies()
+api.post('/cool/path')
 ```
 
 #### Advanced

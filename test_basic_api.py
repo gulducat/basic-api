@@ -7,13 +7,12 @@ from basic_api.exceptions import NoAdapterError, NoMethodError
 
 
 class TestBasicAPI(TestCase):
-    host = 'api.example.com'
-    base_url = 'https://' + host
+    base_url = 'https://api.example.com'
     cool_url = base_url + '/cool/path'
 
     def setUp(self):
         self.adapter = Mock()
-        self.api = BasicAPI(self.host, adapter=self.adapter)
+        self.api = BasicAPI(self.base_url, adapter=self.adapter)
 
     def test_get(self):
         self.api.get()
@@ -58,7 +57,7 @@ class TestBasicAPI(TestCase):
         self.adapter.get.assert_called_once_with(url=self.cool_url)
 
     def test_duplicate_kw_merge(self):
-        api = BasicAPI(self.host, adapter=self.adapter,
+        api = BasicAPI(self.base_url, adapter=self.adapter,
                        headers={'ua': 'cool app'})
         api.get(another='kwarg')
         expected = {
@@ -70,7 +69,7 @@ class TestBasicAPI(TestCase):
     def test_duplicate_kw_override(self):
         cool = {'headers': {'ua': 'cool app'}}
         cooler = {'headers': {'ua': 'COOLER app'}}
-        api = BasicAPI(self.host, adapter=self.adapter, **cool)
+        api = BasicAPI(self.base_url, adapter=self.adapter, **cool)
 
         api.get(**cooler)
         self.adapter.get.assert_called_once_with(url=self.base_url, **cooler)
@@ -82,7 +81,7 @@ class TestBasicAPI(TestCase):
 
     def test_no_adapter(self):
         with self.assertRaises(NoAdapterError):
-            BasicAPI(self.host, adapter=None)
+            BasicAPI(self.base_url, adapter=None)
 
     def test_no_method(self):
         with self.assertRaises(NoMethodError):

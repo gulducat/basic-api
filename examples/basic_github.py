@@ -8,7 +8,7 @@ class GitHub(BasicAPI):
         """Basic GitHub API client.
         https://developer.github.com/v3/
         """
-        super().__init__(host='api.github.com')
+        super().__init__(base_url='https://api.github.com')
         token = os.environ.get('GITHUB_TOKEN', token)
         if token:
             self._adapter_kw['headers'] = {
