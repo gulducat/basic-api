@@ -14,17 +14,16 @@ except ImportError:
 
 
 class BasicAPI:
-    def __init__(self, host, proto='https://', adapter=ADAPTER, **adapter_kw):
+    def __init__(self, base_url, adapter=ADAPTER, **adapter_kw):
         """Make API requests as naively as possible.
         See https://github.com/gulducat/basic-api/ for readme.
 
-        :param host: hostname
-        :param proto: protocol, default "https://"
+        :param base_url: base API URL
         :param adapter: object that makes the api call (default requests)
         :param **adapter_kw: keyword arguments to include in calls
         :raises NoAdapterError: if no "requests", and no adapter provided.
         """
-        self._base_url = proto + host
+        self._base_url = base_url
         if not adapter:
             raise exc.NoAdapterError('no "requests", and no adapter provided')
         self._adapter = adapter
